@@ -42,7 +42,7 @@ try {
 // array contén es valores que serão passados como parametros para a query e são colocados nas pesições correspondentes e VALUES
 [title, description, status, user_id]
 );
-res.status(281).json(tarefas.rows[0]);// Retorna a nova tarefa criada
+res.status(201).json(tarefas.rows[0]);// Retorna a nova tarefa criada
 } catch (err) {
 console.error('Erro ao criar tarefa:', err);
 res.status(500).json({ error: 'Erro ao criar a tarefa'});
@@ -55,7 +55,7 @@ const {id} = req.params; // Pega o id da tarefa da URL
 const { title, description, status, user_id} = req.body; // Pega os dados atualizados do corpo da requisição
 try {
     const tarefas = await pool.query(
-    'UPDATE tb_task SET title $1, description = $2, status = $3, user_id = $4 WHERE id = $5 RETURNING *',
+    'UPDATE tb_task SET title = $1, description = $2, status = $3, user_id = $4 WHERE id = $5 RETURNING *',
     [title, description, status, user_id, id]
 );
     if (tarefas.rowCount === 0) { // significa que não há nenhuma tarefa com o ID fornecido.
@@ -81,7 +81,7 @@ try {
 
     res.status(200).json({message: 'Tarefa excluída com sucesso' }); //Retorna a mensagem de sucesso
     } catch (err) {
-console.erroг ('Erro ao excluir tarefa:', err);
+console.error ('Erro ao excluir tarefa:', err);
 res.status(500).json({ error: 'Erro ao excluir a tarefa' });
     }
 });
